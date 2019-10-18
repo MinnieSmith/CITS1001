@@ -1,0 +1,55 @@
+
+/**
+ * Write a description of class StegoViewer here.
+ *
+ * @author (Minh Trang Smith)
+ * @version (October 2019)
+ */
+import java.awt.Color;
+
+public class StegoViewer
+{
+    private BufferedImage image;
+    private SimpleCanvas sc;
+    public static int IMG_WIDTH = 300;
+    public static int IMG_HEIGHT = 300;
+    public static int CAPTION_MARGIN = 50;
+    public static int NUM_IMAGES = 4;
+    private final static Color BG_COLOUR = Color.white;
+    private final static Color TEXT_COLOUR = Color.black;
+
+    public StegoViewer()
+    {
+        //TODO: check if cover, secret encrypted and decrypted require init
+        sc = new SimpleCanvas("Steganography Viewer", IMG_WIDTH * NUM_IMAGES, IMG_HEIGHT + CAPTION_MARGIN, BG_COLOUR);
+
+    }
+
+    private void displayImage(BufferedImage image, int window)
+    {
+        sc.drawImage(image, (window+1)*IMG_WIDTH, 0);
+        if(window == 0)
+        {
+            sc.drawString("Cover", 100, 310, TEXT_COLOUR);
+        }
+        else if(window == 1)
+        {
+            sc.drawString("Secret", 400, 310, TEXT_COLOUR);
+        }
+        else if(window == 2)
+        {
+            sc.drawString("Encrypted Message", 700, 310, TEXT_COLOUR);
+        }
+        else if (window == 3)
+        {
+            sc.drawString("Decrypted Secret", 1000, 310, TEXT_COLOUR);
+        }
+        else
+        {
+            System.out.println("Invalid window number");
+        }
+
+    }
+
+    
+}
