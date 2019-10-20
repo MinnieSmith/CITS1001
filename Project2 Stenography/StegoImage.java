@@ -74,14 +74,9 @@ public class StegoImage
                 int g = c.getGreen();
                 int b = c.getBlue();
 
-                //System.out.println("p= " + p);
-                //System.out.println("r= " + r + " g = " + g + " b = " + b);
-
                 int scaled_r = (r/div) * mult;
                 int scaled_g = (g/div) * mult;
                 int scaled_b = (b/div) * mult;
-
-                //System.out.println("rs= " + scaled_r + " gs = " + scaled_g + " bs = " + scaled_b);
 
                 Color c_scaled = new Color(scaled_r, scaled_g, scaled_b);
                 p = c_scaled.getRGB();
@@ -127,20 +122,9 @@ public class StegoImage
 
                 image.setRGB(x, y, p);
                 
-                //System.out.println("p = " + p + " b = " + blower);
             }
         }
-        /**try
-        { 
-            outfile = new File("ProjectImages/clearLBtest.png"); 
-            ImageIO.write(image, "png", outfile); 
-            System.out.println("File written");
-        } 
-        catch(IOException e) 
-        { 
-            System.out.println(e); 
-        } 
-        */
+
     }
 
     /**
@@ -150,16 +134,6 @@ public class StegoImage
     public void setZeroOne()
     {
         scaleImage(128, 1);
-        try
-        { 
-            outfile = new File("ProjectImages/setZeroOneTest.png"); 
-            ImageIO.write(image, "png", outfile); 
-            System.out.println("File written");
-        } 
-        catch(IOException e) 
-        { 
-            System.out.println(e); 
-        } 
     }
 
     /**

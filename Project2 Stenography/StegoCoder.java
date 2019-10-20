@@ -5,7 +5,6 @@
  * @author (Minh Trang Smith)
  * @version (October 2019)
  */
-import java.awt.image.BufferedImage;
 
 public final class StegoCoder
 {
