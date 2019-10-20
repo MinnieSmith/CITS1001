@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.awt.Color;
+import java.awt.Graphics2D;
 
 public class StegoImage
 {
@@ -16,7 +17,6 @@ public class StegoImage
     private int width;
     private int height;
     private File file;
-    private File outfile;
 
     /**
      * Constructor for objects of class StegoImage
@@ -60,6 +60,18 @@ public class StegoImage
     }
 
     /**
+     * Extension: resize image
+     */
+    public void resizeImage(int newWidth, int newHeight)
+    {
+        BufferedImage outImage = new BufferedImage(newWidth, newHeight, image.getType());
+        Graphics2D graphics = outImage.createGraphics();
+        graphics.drawImage(image, 0, 0, newWidth, newHeight, null);
+        graphics.dispose();
+        image = outImage; 
+    }
+    
+    /**
      * Modify image by changing every pixel by scaling RGB components 
      */
     public void scaleImage(int div, int mult)
@@ -101,16 +113,16 @@ public class StegoImage
                 int r = c.getRed();
                 int g = c.getGreen();
                 int b = c.getBlue();
-                
-                 if (r % 2 == 1)
+
+                if (r % 2 == 1)
                 {
                     r = r - 1;
                 }
-                 if (g % 2 == 1)
+                if (g % 2 == 1)
                 {
                     g = g - 1;
                 }
-                
+
                 if (b % 2 == 1)
                 {
                     b = b - 1;
@@ -121,7 +133,7 @@ public class StegoImage
                 p = c_lower.getRGB();
 
                 image.setRGB(x, y, p);
-                
+
             }
         }
 
@@ -157,11 +169,11 @@ public class StegoImage
                 int r = c.getRed();
                 int g = c.getGreen();
                 int b = c.getBlue();
-                
+
                 r = r % 2;
                 g = g % 2;
                 b = b % 2;
-                
+
                 Color c_lowbit = new Color(r, g, b);
 
                 int p = c_lowbit.getRGB();
@@ -185,7 +197,7 @@ public class StegoImage
                 int r = c.getRed();
                 int g = c.getGreen();
                 int b = c.getBlue();
-                
+
                 Color nc = new Color(newimage.getImage().getRGB(x,y));
                 int nr = nc.getRed();
                 int ng = nc.getGreen();
@@ -201,6 +213,23 @@ public class StegoImage
 
                 image.setRGB(x, y, p);
             }
+        }
+    }
+
+    /**
+     * Extension: save StegoImage to an image file
+     */
+    public void saveImage(String filename, String filetype)
+    {
+        try
+        {
+            File outfile = new File(filename);
+            ImageIO.write(image, filetype, outfile);
+            System.out.println("File writing complete");
+        }
+        catch(IOException e)
+        {
+            System.out.println(e);
         }
     }
 }
