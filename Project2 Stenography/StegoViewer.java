@@ -6,10 +6,10 @@
  * @version (October 2019)
  */
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 
 public class StegoViewer
 {
-    private BufferedImage image;
     private SimpleCanvas sc;
     public static int IMG_WIDTH = 300;
     public static int IMG_HEIGHT = 300;
@@ -22,12 +22,12 @@ public class StegoViewer
     {
         //TODO: check if cover, secret encrypted and decrypted require init
         sc = new SimpleCanvas("Steganography Viewer", IMG_WIDTH * NUM_IMAGES, IMG_HEIGHT + CAPTION_MARGIN, BG_COLOUR);
-
+       
     }
 
-    private void displayImage(BufferedImage image, int window)
+    public void displayImage(BufferedImage image, int window)
     {
-        sc.drawImage(image, (window+1)*IMG_WIDTH, 0);
+        sc.drawImage(image, (window)*IMG_WIDTH, 0);
         if(window == 0)
         {
             sc.drawString("Cover", 100, 310, TEXT_COLOUR);

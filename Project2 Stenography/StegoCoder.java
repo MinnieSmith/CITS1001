@@ -2,32 +2,41 @@
 /**
  * Write a description of class StegoCoder here.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author (Minh Trang Smith)
+ * @version (October 2019)
  */
-public class StegoCoder
-{
-    // instance variables - replace the example below with your own
-    private int x;
+import java.awt.image.BufferedImage;
 
+public final class StegoCoder
+{
     /**
      * Constructor for objects of class StegoCoder
      */
     public StegoCoder()
     {
-        // initialise instance variables
-        x = 0;
+        ;
     }
 
     /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
+     * Return a new message by hiding a secret in the cover image
      */
-    public int sampleMethod(int y)
+    public static StegoImage encrypt(StegoImage cover, StegoImage secret)
     {
-        // put your code here
-        return x + y;
+        cover.clearLowBit();
+        secret.setZeroOne();
+        cover.mergeImage(secret);
+        return cover;
+        
+    }
+    
+    /**
+     * Return a new message by hiding a secret in the cover image
+     */
+    public static StegoImage decrypt(StegoImage message)
+    {
+        message.setLowBit();
+        message.setBlackWhite();
+        return message;
+        
     }
 }
