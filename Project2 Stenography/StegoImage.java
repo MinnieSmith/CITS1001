@@ -64,11 +64,18 @@ public class StegoImage
      */
     public void resizeImage(int newWidth, int newHeight)
     {
-        BufferedImage outImage = new BufferedImage(newWidth, newHeight, image.getType());
-        Graphics2D graphics = outImage.createGraphics();
-        graphics.drawImage(image, 0, 0, newWidth, newHeight, null);
-        graphics.dispose();
-        image = outImage; 
+        try {
+            BufferedImage outImage = new BufferedImage(newWidth, newHeight, image.getType());
+            Graphics2D graphics = outImage.createGraphics();
+            graphics.drawImage(image, 0, 0, newWidth, newHeight, null);
+            graphics.dispose();
+            image = outImage;
+            width = newWidth;
+            height = newHeight;
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println("IllegalArgumentException");
+        }
     }
     
     /**
@@ -76,25 +83,29 @@ public class StegoImage
      */
     public void scaleImage(int div, int mult)
     {
-        for(int x=0; x<width; ++x)
-        {
-            for(int y =0; y<height; ++y)
+        try {
+            for(int x=0; x<width; ++x)
             {
-                int p = image.getRGB(x,y);
-                Color c = new Color(image.getRGB(x,y));
-                int r = c.getRed();
-                int g = c.getGreen();
-                int b = c.getBlue();
-
-                int scaled_r = (r/div) * mult;
-                int scaled_g = (g/div) * mult;
-                int scaled_b = (b/div) * mult;
-
-                Color c_scaled = new Color(scaled_r, scaled_g, scaled_b);
-                p = c_scaled.getRGB();
-
-                image.setRGB(x, y, p);
+                for(int y =0; y<height; ++y)
+                {
+                    Color c = new Color(image.getRGB(x,y));
+                    int r = c.getRed();
+                    int g = c.getGreen();
+                    int b = c.getBlue();
+    
+                    int scaled_r = (r/div) * mult;
+                    int scaled_g = (g/div) * mult;
+                    int scaled_b = (b/div) * mult;
+    
+                    Color c_scaled = new Color(scaled_r, scaled_g, scaled_b);
+                    int p = c_scaled.getRGB();
+    
+                    image.setRGB(x, y, p);
+                }
             }
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println("IllegalArgumentException");
         }
     }
 
@@ -189,30 +200,40 @@ public class StegoImage
      */
     public void mergeImage(StegoImage newimage)
     {
-        for(int x=0; x<width; ++x)
+        if(newimage.getImage().getWidth() != width || newimage.getImage().getHeight() != height)
         {
-            for(int y =0; y<height; ++y)
+            System.out.println("Incompatible image sizes, please resize images");
+        }
+        
+        try {
+            for(int x=0; x<width; ++x)
             {
-                Color c = new Color(image.getRGB(x,y));
-                int r = c.getRed();
-                int g = c.getGreen();
-                int b = c.getBlue();
-
-                Color nc = new Color(newimage.getImage().getRGB(x,y));
-                int nr = nc.getRed();
-                int ng = nc.getGreen();
-                int nb = nc.getBlue();
-
-                r = r + nr;
-                g = g + ng;
-                b = b + nb;
-
-                Color c_merged = new Color(r, g, b);
-
-                int p = c_merged.getRGB();
-
-                image.setRGB(x, y, p);
+                for(int y =0; y<height; ++y)
+                {
+                    Color c = new Color(image.getRGB(x,y));
+                    int r = c.getRed();
+                    int g = c.getGreen();
+                    int b = c.getBlue();
+    
+                    Color nc = new Color(newimage.getImage().getRGB(x,y));
+                    int nr = nc.getRed();
+                    int ng = nc.getGreen();
+                    int nb = nc.getBlue();
+    
+                    r = r + nr;
+                    g = g + ng;
+                    b = b + nb;
+    
+                    Color c_merged = new Color(r, g, b);
+    
+                    int p = c_merged.getRGB();
+    
+                    image.setRGB(x, y, p);
+                }
             }
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println("IllegalArgumentException");
         }
     }
 

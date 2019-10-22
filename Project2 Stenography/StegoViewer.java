@@ -20,14 +20,23 @@ public class StegoViewer
 
     public StegoViewer()
     {
-        //TODO: check if cover, secret encrypted and decrypted require init
         sc = new SimpleCanvas("Steganography Viewer", IMG_WIDTH * NUM_IMAGES, IMG_HEIGHT + CAPTION_MARGIN, BG_COLOUR);
        
     }
 
     public void displayImage(BufferedImage image, int window)
     {
-        sc.drawImage(image, (window)*IMG_WIDTH, 0);
+        if(image.getWidth() > IMG_WIDTH || image.getHeight()> IMG_HEIGHT)
+        {
+            System.out.println("Please resize image");
+        }
+        
+        try {
+            sc.drawImage(image, (window)*IMG_WIDTH, 0);
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println("IllegalArgumentException");
+        }
         if(window == 0)
         {
             sc.drawString("Cover", 100, 310, TEXT_COLOUR);
